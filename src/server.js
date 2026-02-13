@@ -1,3 +1,6 @@
+import dns from "node:dns/promises";
+await dns.setServers(["1.1.1.1", "1.0.0.1", "8.8.8.8", "8.8.4.4"]);
+console.log("Node.js DNS servers:", await dns.getServers());
 import express from "express"
 import dotenv from "dotenv"
 import path from "path"
