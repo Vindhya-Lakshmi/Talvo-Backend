@@ -44,9 +44,11 @@ export async function createSession(req,res) {
 export async function getActiveSessions(_, res) {
     try {
         const sessions = await Session.find({ status: "active" })
-        .populate("host", "name profileImage email clerId")
-        .sort({ createAt: -1 })
+        
+        .populate("host", "name profileImage email clerkId")
+        .sort({ createdAt: -1 })
         .limit(20);
+        console.log("sessions",sessions);
 
         res.status(200).json({sessions})
     } catch (error) {
@@ -55,7 +57,7 @@ export async function getActiveSessions(_, res) {
     }
 }
 
-export async function getMyRewcentSessions(req,res) {
+export async function getMyRecentSessions(req,res) {
     try {
         const userId = req.user._id
 
@@ -64,7 +66,7 @@ export async function getMyRewcentSessions(req,res) {
             status:"completed",
             $or: [{host:userId}, {participant:userId}]
         })
-        .sort({ createAt: -1 })
+        .sort({ createdAt: -1 })
         .limit(20);
 
         res.status(200).json({sessions});

@@ -15,7 +15,6 @@ import chatRoutes from "./routes/chatRoutes.js"
 import sessionRoutes from "./routes/sessionRoutes.js"
 
 
-
 dotenv.config();
 
 const app = express();
@@ -33,12 +32,6 @@ app.use("/api/chat", chatRoutes)
 app.use("/api/sessions", sessionRoutes)
 
 
-app.get("/health", (req, res) => {
-    res.status(200).json({ msg: "api is running" })
-});
-
-
-
 // make our app ready for deployment
 if (ENV.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client/dist")))
@@ -46,12 +39,7 @@ if (ENV.NODE_ENV === "production") {
     app.get("/{*any)", (req, res) => {
         res.sendFile(path.join(__dirname, "../client", "dist", "index.html"));
     })
-
 }
-
-
-
-
 
 const startServer = async () => {
     try {
